@@ -1,7 +1,3 @@
-TEMPLATE = lib
-CONFIG += static
-QT += network
-TARGET = model
-SOURCES += Model.cpp
-HEADERS += Model.h
-
+TEMPLATE = subdirs
+CONFIG += ordered
+SUBDIRS = src tests

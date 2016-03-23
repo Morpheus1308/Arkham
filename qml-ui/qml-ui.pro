@@ -1,21 +1,9 @@
+include(../uis.pri)
+
 TEMPLATE = app
 TARGET = qml-ui
-INCLUDEPATH += . ../
+INCLUDEPATH += . ../model/src
 
 SOURCES += main.cpp
 
-win32 {
-
-}
-
-unix:!macx {
-    LIBS += -L../model -lmodel
-    PRE_TARGETDEPS += ../model/libmodel.a
-}
-
-
-macx {
-    LIBS += -L../model -lmodel
-    PRE_TARGETDEPS += ../model/libmodel.a
-}
 
