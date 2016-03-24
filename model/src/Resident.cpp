@@ -75,6 +75,25 @@ Resident::~Resident()
     delete d;
 }
 
+bool Resident::operator==(const Resident &other) const
+{
+    return
+            d->id == other.d->id &&
+            d->name == other.d->name &&
+            d->title == other.d->title &&
+            d->sanity == other.d->sanity &&
+            d->birthdate == other.d->birthdate &&
+            d->gender == other.d->gender &&
+            d->privileges == other.d->privileges &&
+            d->password == other.d->password &&
+            d->email == other.d->email;
+}
+
+bool Resident::operator!=(const Resident &other) const
+{
+    return ! (*this == other);
+}
+
 int Resident::id() const
 {
     return d->id;

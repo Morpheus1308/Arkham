@@ -34,6 +34,8 @@ public:
     Resident(const Resident &other);
     Resident& operator=(Resident &rhs);
     ~Resident();
+    bool operator==(const Resident &other) const;
+    bool operator!=(const Resident &other) const;
 
     int id() const;
 

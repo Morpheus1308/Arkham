@@ -2,6 +2,8 @@
 
 #include <functional>
 #include "Resident.h"
+#include <QDebug>
+
 
 typedef void(Resident::*setStringPtr)(const QString &val);
 typedef QString(Resident::*getStringPtr)() const;
@@ -13,6 +15,9 @@ typedef int(Resident::*getIntPtr)() const;
 Q_DECLARE_METATYPE(setIntPtr)
 Q_DECLARE_METATYPE(getIntPtr)
 
+
+typedef std::function<void(Resident*const)> manipulator;
+Q_DECLARE_METATYPE(manipulator)
 
 class MockResident : public Resident
 {
@@ -131,6 +136,33 @@ private slots:
         QVERIFY (Resident::MayReadSelf == mr.privileges());
         QCOMPARE(Resident::NotSure, mr.gender());
         QCOMPARE(QString(""), mr.email());
+    }
+
+    void testEqualsOperator_data()
+    {
+
+        QTest::addColumn<manipulator>("manipulate");
+        QTest::newRow("title") << manipulator([](Resident*const r){ r->setTitle(r->title()+"Naah..");});
+        QTest::newRow("name") << manipulator([](Resident*const r){ r->setName(r->name()+"Naah..");});
+
+    }
+
+
+    void testEqualsOperator()
+    {
+        MockResident mr1;
+        MockResident mr2;
+
+        QFETCH(manipulator, manipulate);
+
+        QCOMPARE(mr1, mr2);
+        QVERIFY( ! (mr1 != mr2) );
+
+        manipulate(&mr1);
+
+        QVERIFY( ! (mr1 == mr2) );
+        QVERIFY(   (mr1 != mr2) );
+
 
     }
 
