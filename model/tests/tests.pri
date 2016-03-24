@@ -2,7 +2,7 @@ QT += testlib network
 
 TEMPLATE = app
 
-INCLUDEPATH += ../src/
+INCLUDEPATH += ../../src/
 
 unix:!macx {
     LIBS += -L../../src -lmodel

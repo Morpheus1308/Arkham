@@ -12,7 +12,6 @@ private slots:
         QVERIFY(str.toUpper() == "HELLO");
     }
 
-
 };
 
 QTEST_GUILESS_MAIN(ModelTest)
