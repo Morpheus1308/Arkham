@@ -32,19 +32,6 @@ public:
     {
     }
 
-    void copyFrom(ResidentPrivate *other)
-    {
-        name = other->name;
-        sanity = other->sanity;
-        birthdate = other->birthdate;
-        title = other->title;
-        privileges = other->privileges;
-        id = other->id;
-        email = other->email;
-        gender = other->gender;
-        password = other->password;
-    }
-
     void streamTo(QDataStream &out)
     {
         out << name << email  << birthdate << title << password;
@@ -79,20 +66,6 @@ public:
 Resident::Resident()
 {
     d = new ResidentPrivate(this);
-}
-
-Resident::Resident(const Resident &other)
-{
-    d = new ResidentPrivate(this);
-    if(this == &other) return;
-    d->copyFrom(other.d);
-}
-
-Resident &Resident::operator=(Resident &rhs)
-{
-    if(this == &rhs) return *this;
-    d->copyFrom(rhs.d);
-    return *this;
 }
 
 Resident::~Resident()
@@ -144,6 +117,7 @@ QString Resident::name() const
 void Resident::setName(const QString &name)
 {
     d->name = name;
+    emit updated(this);
 }
 
 QString Resident::title() const
@@ -154,6 +128,8 @@ QString Resident::title() const
 void Resident::setTitle(const QString &title)
 {
     d->title = title;
+    emit updated(this);
+
 }
 
 int Resident::sanity() const
@@ -164,7 +140,9 @@ int Resident::sanity() const
 void Resident::setSanity(int sanity)
 {
     d->sanity = sanity;
+    emit updated(this);
 }
+
 
 QDate Resident::birthDate() const
 {
@@ -174,6 +152,7 @@ QDate Resident::birthDate() const
 void Resident::setBirthDate(const QDate &birthdate)
 {
     d->birthdate = birthdate;
+    emit updated(this);
 }
 
 Resident::Gender Resident::gender() const
@@ -184,6 +163,7 @@ Resident::Gender Resident::gender() const
 void Resident::setGender(Resident::Gender gender)
 {
     d->gender = gender;
+    emit updated(this);
 }
 
 int Resident::privileges() const
@@ -194,6 +174,7 @@ int Resident::privileges() const
 void Resident::setPrivileges(int privileges)
 {
     d->privileges = privileges;
+    emit updated(this);
 }
 
 void Resident::setPassword(const QString &password)
@@ -209,6 +190,7 @@ QString Resident::email() const
 void Resident::setEmail(const QString &email)
 {
     d->email = email;
+    emit updated(this);
 }
 
 bool Resident::matchesPassword(const QString &password) const

@@ -73,11 +73,17 @@ private slots:
 
         QString original_value = get();
 
+        bool signalled = false;
+        connect(&mr, &Resident::updated, [&]()
+        {
+            signalled = true;
+        });
+
         QString value;
         value = original_value + "Some new value";
         std::function<void(QString)> set = std::bind(setter, &mr, value);
         set(value);
-
+        QVERIFY(signalled);
         QCOMPARE(original_value + "Some new value", get());
     }
 
@@ -102,10 +108,19 @@ private slots:
 
         int value;
         value = original_value + 42;
+
+        //We want to assure, that an updated signal is emitted whenever an int is changed.
+        bool signalled = false;
+        connect(&mr, &Resident::updated, [&]()
+        {
+            signalled = true;
+        });
+
         std::function<void(int)> set = std::bind(setter, &mr, value);
         set(value);
 
         QCOMPARE(original_value + 42, get());
+        QVERIFY(signalled);
     }
 
     void testBirthDate()

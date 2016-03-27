@@ -7,8 +7,10 @@
 
 
 /** A Resident is a person that resides on AA. This may be inmates, guards or other kind of personal. */
-class Resident
+class Resident : public QObject
 {
+
+    Q_OBJECT
 
 public:
 
@@ -33,9 +35,9 @@ public:
     };
 
     Resident();
-    Resident(const Resident &other);
-    Resident& operator=(Resident &rhs);
     ~Resident();
+
+
     bool operator==(const Resident &other) const;
     bool operator!=(const Resident &other) const;
 
@@ -75,8 +77,11 @@ public:
     bool mayRead(Resident const * const resident) const;
     bool mayWrite(Resident const * const resident) const;
 
+signals:
+    void updated(Resident*);
 
 private:
+    Q_DISABLE_COPY(Resident)
     friend class ResidentPrivate;
     class ResidentPrivate *d;
 };
