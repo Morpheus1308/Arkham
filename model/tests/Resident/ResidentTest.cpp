@@ -5,17 +5,20 @@
 #include <QDebug>
 
 
+//For batch testing of string getters and setters.
 typedef void(Resident::*setStringPtr)(const QString &val);
 typedef QString(Resident::*getStringPtr)() const;
 Q_DECLARE_METATYPE(setStringPtr)
 Q_DECLARE_METATYPE(getStringPtr)
 
+//For batch testing of int getters and setters.
 typedef void(Resident::*setIntPtr)(int);
 typedef int(Resident::*getIntPtr)() const;
 Q_DECLARE_METATYPE(setIntPtr)
 Q_DECLARE_METATYPE(getIntPtr)
 
 
+//For passing lambdas as data in data driven tests of == and != operators
 typedef std::function<void(Resident*const)> manipulator;
 Q_DECLARE_METATYPE(manipulator)
 
@@ -142,8 +145,10 @@ private slots:
     {
 
         QTest::addColumn<manipulator>("manipulate");
-        QTest::newRow("title") << manipulator([](Resident*const r){ r->setTitle(r->title()+"Naah..");});
         QTest::newRow("name") << manipulator([](Resident*const r){ r->setName(r->name()+"Naah..");});
+        QTest::newRow("sanity") << manipulator([](Resident*const r){ r->setSanity(r->sanity()+11);});
+        QTest::newRow("title") << manipulator([](Resident*const r){ r->setTitle(r->title()+"Naah..");});
+        QTest::newRow("email") << manipulator([](Resident*const r){ r->setEmail(r->email()+"Naah..");});
 
     }
 

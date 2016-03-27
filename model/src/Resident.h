@@ -3,6 +3,8 @@
 
 #include <QString>
 #include <QDate>
+#include <QDataStream>
+
 
 /** A Resident is a person that resides on AA. This may be inmates, guards or other kind of personal. */
 class Resident
@@ -36,6 +38,9 @@ public:
     ~Resident();
     bool operator==(const Resident &other) const;
     bool operator!=(const Resident &other) const;
+
+    void streamTo(QDataStream &out);
+    static Resident* streamNewResidentFrom(QDataStream &in);
 
     int id() const;
 
@@ -71,11 +76,9 @@ public:
     bool mayWrite(Resident const * const resident) const;
 
 
-
 private:
     friend class ResidentPrivate;
     class ResidentPrivate *d;
 };
-
 #endif // RESIDENT_H
 

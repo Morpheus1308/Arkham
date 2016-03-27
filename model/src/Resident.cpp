@@ -1,5 +1,6 @@
 #include "Resident.h"
 #include <QCryptographicHash>
+#include "Patient.h"
 
 class ResidentPrivate
 {
@@ -40,7 +41,31 @@ public:
         privileges = other->privileges;
         id = other->id;
         email = other->email;
+        gender = other->gender;
         password = other->password;
+    }
+
+    void streamTo(QDataStream &out)
+    {
+        out << name << email  << birthdate << title << password;
+        out << qint64(privileges);
+        out << qint64(id);
+        out << qint64(sanity);
+        out << qint64(gender);
+
+
+    }
+
+
+    void streamFrom(QDataStream &in)
+    {
+        in >> name >> email  >> birthdate >> title >> password;
+        qint64 in64;
+        in >> in64;  privileges = in64;
+        in >> in64;  id = in64;
+        in >> in64;  sanity = in64;
+        in >> in64;  gender = (Resident::Gender)in64;
+
     }
 
     QString hashPassword(const QString &password)
@@ -94,6 +119,18 @@ bool Resident::operator!=(const Resident &other) const
     return ! (*this == other);
 }
 
+Resident* Resident::streamNewResidentFrom(QDataStream &in)
+{
+    Resident *r = new Patient;
+    r->d->streamFrom(in);
+    return r;
+}
+
+
+void Resident::streamTo(QDataStream &out)
+{
+    d->streamTo(out);
+}
 int Resident::id() const
 {
     return d->id;
@@ -178,3 +215,4 @@ bool Resident::matchesPassword(const QString &password) const
 {
     return d->hashPassword(password) == d->password;
 }
+
