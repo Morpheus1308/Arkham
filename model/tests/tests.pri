@@ -4,6 +4,10 @@ TEMPLATE = app
 
 INCLUDEPATH += ../../src/
 
+
+SOURCES += ../MockResident.cpp
+HEADERS += ../MockResident.h
+
 unix:!macx {
     LIBS += -L../../src -lmodel
     PRE_TARGETDEPS += ../../src/libmodel.a

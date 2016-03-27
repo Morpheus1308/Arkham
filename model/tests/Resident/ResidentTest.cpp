@@ -1,8 +1,9 @@
 #include <QtTest/QtTest>
 
 #include <functional>
-#include "Resident.h"
+#include "../MockResident.h"
 #include <QDebug>
+#include <QMetaObject>
 
 
 //For batch testing of string getters and setters.
@@ -22,23 +23,6 @@ Q_DECLARE_METATYPE(getIntPtr)
 typedef std::function<void(Resident*const)> manipulator;
 Q_DECLARE_METATYPE(manipulator)
 
-class MockResident : public Resident
-{
-public:
-    MockResident() : Resident()
-    {
-    }
-    bool mayBeReadBy(Resident const * const ) const
-    {
-        return false;
-    }
-
-    bool mayBeWrittenBy(Resident const * const ) const
-    {
-        return true;
-    }
-
-};
 
 class ResidentTest: public QObject
 {

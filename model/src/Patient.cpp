@@ -49,3 +49,8 @@ bool Patient::mayBeWrittenBy(const Resident * const resident) const
 {
     return resident->privileges() && Resident::MayWritePatients;
 }
+
+QString Patient::className() const
+{
+    return this->staticMetaObject.className();
+}

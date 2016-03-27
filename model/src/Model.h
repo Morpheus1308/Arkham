@@ -3,6 +3,7 @@
 
 #include <QIODevice>
 #include <QAbstractItemModel>
+#include <functional>
 
 class Resident;
 
@@ -21,6 +22,7 @@ public:
     void removeResident(Resident *resident);
 
     QList<Resident*> residents() const;
+
 private:
     Model(const Model &other);
     Model &operator=(const Model &rhs);

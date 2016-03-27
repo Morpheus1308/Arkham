@@ -1,6 +1,12 @@
 #include "Resident.h"
 #include <QCryptographicHash>
 #include "Patient.h"
+#include <typeinfo>
+#include <QString>
+#include <QMap>
+#include <assert.h>
+
+static QMap<QString, std::function<Resident*()> > factoryFunctions;
 
 class ResidentPrivate
 {
@@ -64,6 +70,7 @@ public:
 };
 
 Resident::Resident()
+    : QObject()
 {
     d = new ResidentPrivate(this);
 }
@@ -94,7 +101,14 @@ bool Resident::operator!=(const Resident &other) const
 
 Resident* Resident::streamNewResidentFrom(QDataStream &in)
 {
-    Resident *r = new Patient;
+    QString classname;
+    in >> classname;
+    if( ! factoryFunctions.contains(classname))
+    {
+        qDebug("There are no creator for %s", qPrintable(classname));
+        assert(false);
+    }
+    Resident *r = factoryFunctions[classname]();
     r->d->streamFrom(in);
     return r;
 }
@@ -102,6 +116,7 @@ Resident* Resident::streamNewResidentFrom(QDataStream &in)
 
 void Resident::streamTo(QDataStream &out)
 {
+    out << this->className();
     d->streamTo(out);
 }
 int Resident::id() const
@@ -198,3 +213,7 @@ bool Resident::matchesPassword(const QString &password) const
     return d->hashPassword(password) == d->password;
 }
 
+void Resident::registerResidentType(const QString &name, std::function<Resident*()> creator)
+{
+    factoryFunctions[name] = creator;
+}

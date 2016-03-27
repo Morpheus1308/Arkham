@@ -4,7 +4,7 @@
 #include <QString>
 #include <QDate>
 #include <QDataStream>
-
+#include <functional>
 
 /** A Resident is a person that resides on AA. This may be inmates, guards or other kind of personal. */
 class Resident : public QObject
@@ -43,6 +43,7 @@ public:
 
     void streamTo(QDataStream &out);
     static Resident* streamNewResidentFrom(QDataStream &in);
+    static void registerResidentType(const QString &name, std::function<Resident*()> creator);
 
     int id() const;
 
@@ -74,6 +75,9 @@ public:
 
     virtual bool mayBeReadBy(Resident const * const resident) const = 0;
     virtual bool mayBeWrittenBy(Resident const * const resident) const = 0;
+
+    //This is not the most elegant approach, but will do for this assignment.
+    virtual QString className() const = 0;
     bool mayRead(Resident const * const resident) const;
     bool mayWrite(Resident const * const resident) const;
 
@@ -85,5 +89,9 @@ private:
     friend class ResidentPrivate;
     class ResidentPrivate *d;
 };
+
+#define RegisterResident(TYPE) Resident::registerResidentType(TYPE::staticMetaObject.className(), [](){ return new TYPE; });
+
+
 #endif // RESIDENT_H
 

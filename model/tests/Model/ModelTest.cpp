@@ -1,25 +1,6 @@
 #include <QtTest/QtTest>
 #include "Model.h"
-#include "Resident.h"
-
-class MockResident : public Resident
-{
-public:
-    MockResident() : Resident()
-    {
-    }
-    bool mayBeReadBy(Resident const * const ) const
-    {
-        return false;
-    }
-
-    bool mayBeWrittenBy(Resident const * const ) const
-    {
-        return true;
-    }
-
-};
-
+#include "../MockResident.h"
 
 class ModelTest: public QObject
 {
@@ -40,7 +21,6 @@ private slots:
         r->setBirthDate(QDate(2000, 1, 1));
         model->addResident(r);
 
-
         r = new MockResident();
         r->setEmail("b@b.bb");
         r->setGender(Resident::Male);
@@ -50,7 +30,6 @@ private slots:
         r->setPassword("bbb");
         r->setBirthDate(QDate(2000, 2, 2));
         model->addResident(r);
-
 
         r = new MockResident();
         r->setEmail("c@c.cc");
@@ -88,6 +67,8 @@ private slots:
 
     void testLoadAndSave()
     {
+
+
         Model *original = this->buildModelForTest();
         QByteArray data;
         QBuffer out(&data);
@@ -105,7 +86,17 @@ private slots:
 
 };
 
-QTEST_GUILESS_MAIN(ModelTest)
+
+
+
+int main(int argc, char *argv[])
+{
+    QCoreApplication app(argc, argv);
+    RegisterResident(MockResident);
+    ModelTest tc;
+    return QTest::qExec(&tc, argc, argv);
+}
+
 
 #include "ModelTest.moc"
 

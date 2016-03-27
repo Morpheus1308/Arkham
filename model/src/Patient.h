@@ -17,7 +17,7 @@ public:
     //"Aktindsigt" is a town in Denmark!
     bool mayBeReadBy(Resident const * const resident) const;
     bool mayBeWrittenBy(Resident const * const resident) const;
-
+    QString className() const;
 
 private:
     friend class PatientPrivate;

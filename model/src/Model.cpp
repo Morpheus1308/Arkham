@@ -3,6 +3,7 @@
 #include "Resident.h"
 #include <QDataStream>
 
+
 class ModelPrivate
 {
 private:
@@ -16,6 +17,7 @@ public:
 
     QList<Resident*> residents;
     int nextid;
+
 };
 
 Model::Model()
@@ -61,7 +63,7 @@ bool Model::load(QIODevice *in)
 
 void Model::addResident(Resident *resident)
 {
-d->residents << resident;
+    d->residents << resident;
 }
 
 void Model::removeResident(Resident *resident)
@@ -71,5 +73,5 @@ void Model::removeResident(Resident *resident)
 
 QList<Resident *> Model::residents() const
 {
- return d->residents;
+    return d->residents;
 }
