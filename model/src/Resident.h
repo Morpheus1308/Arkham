@@ -78,6 +78,7 @@ public:
 
     //This is not the most elegant approach, but will do for this assignment.
     virtual QString className() const = 0;
+
     bool mayRead(Resident const * const resident) const;
     bool mayWrite(Resident const * const resident) const;
 

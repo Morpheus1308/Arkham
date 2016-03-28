@@ -8,12 +8,16 @@
 class Resident;
 
 
-class Model /*: public QAbstractItemModel*/
+class Model : public QAbstractItemModel
 {
 
 public:
 	Model();
 	~Model();
+
+    void setFileName( const QString &filename);
+    void loadFromFileOrCreate();
+    void saveToFile();
 
     bool save(QIODevice *out) const;
     bool load(QIODevice *in);
@@ -22,6 +26,14 @@ public:
     void removeResident(Resident *resident);
 
     QList<Resident*> residents() const;
+
+    //Methods from QAbstractItemModel
+    QModelIndex index(int row, int column, const QModelIndex&parent = QModelIndex()) const;
+    QModelIndex parent(const QModelIndex &index) const;
+    int rowCount( const QModelIndex &index = QModelIndex()) const;
+    int columnCount( const QModelIndex &index = QModelIndex()) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
 private:
     Model(const Model &other);

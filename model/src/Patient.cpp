@@ -21,19 +21,6 @@ Patient::Patient()
     d = new PatientPrivate(this);
 }
 
-Patient::Patient(const Patient &other)
-{
-    d = new PatientPrivate(this);
-    if(this == &other) return;
-    d->copyFrom(other.d);
-}
-
-Patient &Patient::operator=(Patient &rhs)
-{
-    if(this == &rhs) return *this;
-    d->copyFrom(rhs.d);
-    return *this;
-}
 
 Patient::~Patient()
 {

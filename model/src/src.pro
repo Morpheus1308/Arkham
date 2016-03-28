@@ -6,9 +6,9 @@ CONFIG += c++11
 
 SOURCES +=  Model.cpp \
             Resident.cpp \
-    Patient.cpp
+            Patient.cpp
 
 HEADERS +=  Model.h \
             Resident.h \
-    Patient.h
+            Patient.h
 

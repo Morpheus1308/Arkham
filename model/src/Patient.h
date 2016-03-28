@@ -6,6 +6,8 @@
 class Patient : public Resident
 {
 
+    Q_OBJECT
+
 public:
 
     Patient();
