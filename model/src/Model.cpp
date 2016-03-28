@@ -148,6 +148,18 @@ void Model::removeResident(Resident *resident)
 
 }
 
+Resident *Model::getResidentByEmail(const QString &email) const
+{
+    foreach(Resident *r, d->residents)
+    {
+        if(r->email() == email)
+        {
+            return r;
+        }
+    }
+    return 0;
+}
+
 QList<Resident *> Model::residents() const
 {
     return d->residents;

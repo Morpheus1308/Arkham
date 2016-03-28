@@ -2,6 +2,9 @@
 #include <QApplication>
 
 #include "MainWindow.h"
+#include "LoginDialog.h"
+#include <QDebug>
+#include <Resident.h>
 
 int main(int argc, char *argv[])
 {
@@ -13,8 +16,16 @@ int main(int argc, char *argv[])
     //model.loadFromFile();
 
     MainWindow window;
-    window.show();
     window.setModel(&model);
+
+    LoginDialog logindialog(model);
+    logindialog.show();
+    QObject::connect(&logindialog, SIGNAL(loginCancelled()), &app, SLOT(quit()));
+    QObject::connect(&logindialog, &LoginDialog::loginSuccessFull, [&](Resident *r)
+    {
+        window.showMaximized();
+        logindialog.hide();
+    });
 
     return app.exec();
 }

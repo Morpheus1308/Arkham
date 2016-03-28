@@ -24,6 +24,7 @@ public:
 
     void addResident(Resident *resident);
     void removeResident(Resident *resident);
+    Resident *getResidentByEmail(const QString &email) const;
 
     QList<Resident*> residents() const;
 
