@@ -87,16 +87,16 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="cancel_button">
+      <widget class="QPushButton" name="login_button">
        <property name="text">
-        <string>&amp;Cancel</string>
+        <string>&amp;Login</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="login_button">
+      <widget class="QPushButton" name="cancel_button">
        <property name="text">
-        <string>&amp;Login</string>
+        <string>&amp;Cancel</string>
        </property>
       </widget>
      </item>
