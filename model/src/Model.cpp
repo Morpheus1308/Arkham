@@ -228,8 +228,8 @@ int Model::columnCount(const QModelIndex &index) const
 QVariant Model::data(const QModelIndex &index, int role) const
 {
     Resident *r = d->residents[index.row()];
-    qDebug() << "I am, asked for data...";
-    //If we are a one-dimensional model for QML.
+
+    //If I am a one-dimensional model for QML.
     if(d->number_of_dimensions == 1)
     {
         if (role == NameRole)
