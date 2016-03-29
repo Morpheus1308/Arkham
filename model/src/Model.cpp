@@ -227,17 +227,23 @@ int Model::columnCount(const QModelIndex &index) const
 
 QVariant Model::data(const QModelIndex &index, int role) const
 {
+    Resident *r = d->residents[index.row()];
+    qDebug() << "I am, asked for data...";
+    //If we are a one-dimensional model for QML.
+    if(d->number_of_dimensions == 1)
+    {
+        if (role == NameRole)
+            return r->name();
+        else if (role == TitleRole)
+            return r->title();
+        return QVariant();
+    }
+
+    //If I am a two-dimensional model for a grid.
     if(role != Qt::DisplayRole)
     {
         return QVariant();
     }
-    Resident *r = d->residents[index.row()];
-
-    if(d->number_of_dimensions == 1)
-    {
-        return r->title()+" "+r->name();
-    }
-
     switch(index.column())
     {
     case 0: return r->title();
@@ -254,19 +260,19 @@ QVariant Model::data(const QModelIndex &index, int role) const
 
 QVariant Model::headerData(int section, Qt::Orientation orientation, int role) const
 {
- if(orientation == Qt::Vertical) return QVariant();
- if(role != Qt::DisplayRole) return QVariant();
- switch(section)
- {
- case 0: return tr("Title");
- case 1: return tr("Name");
- case 2: return tr("Gender");
- case 3: return tr("Sanity");
- case 4: return tr("Birth Date");
- case 5: return tr("E-mail");
- default: break;
- }
- return QVariant();
+    if(orientation == Qt::Vertical) return QVariant();
+    if(role != Qt::DisplayRole) return QVariant();
+    switch(section)
+    {
+    case 0: return tr("Title");
+    case 1: return tr("Name");
+    case 2: return tr("Gender");
+    case 3: return tr("Sanity");
+    case 4: return tr("Birth Date");
+    case 5: return tr("E-mail");
+    default: break;
+    }
+    return QVariant();
 }
 
 void Model::makeTableModel()
@@ -277,4 +283,12 @@ void Model::makeTableModel()
 void Model::makeListModel()
 {
     d->number_of_dimensions = 1;
+}
+
+QHash<int, QByteArray> Model::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles[NameRole] = "name";
+    roles[TitleRole] = "title";
+    return roles;
 }

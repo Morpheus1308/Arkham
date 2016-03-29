@@ -38,8 +38,18 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
+
     void makeTableModel();
     void makeListModel();
+
+    //Code for exposing model to QML land.
+    enum ResidentRoles {
+        NameRole = Qt::UserRole + 1,
+        TitleRole
+    };
+
+protected:
+    QHash<int, QByteArray> roleNames() const;
 
 private:
     Model(const Model &other);
