@@ -4,6 +4,8 @@
 #include <QDataStream>
 #include <QFile>
 #include "Patient.h"
+#include "Guard.h"
+#include <QDebug>
 
 class ModelPrivate
 {
@@ -104,7 +106,10 @@ void Model::loadFromFileOrCreate()
 
 void Model::saveToFile()
 {
-
+    QFile f(d->filename);
+    f.open(QIODevice::WriteOnly);
+    this->save(&f);
+    f.close();
 }
 
 bool Model::save(QIODevice *out) const
@@ -140,7 +145,11 @@ bool Model::load(QIODevice *in)
 
 void Model::addResident(Resident *resident)
 {
+    beginInsertRows(QModelIndex(), d->residents.count()-1, d->residents.count());
     d->residents << resident;
+    endInsertRows();
+    qDebug() << "Has inserted row.";
+
 }
 
 void Model::removeResident(Resident *resident)
@@ -158,6 +167,26 @@ Resident *Model::getResidentByEmail(const QString &email) const
         }
     }
     return 0;
+}
+
+bool Model::createNewPasswordFor(const QString &email)
+{
+    Resident *r = getResidentByEmail(email);
+    if(r)
+    {
+        r->setPassword("SuperSecretRandomPassword");
+        return true;
+    }
+    return false;
+}
+
+void Model::createNewGuard(const QString &email)
+{
+    Guard *guard = new Guard();
+    guard->setEmail(email);
+    guard->setPassword("ssrp");
+    addResident(guard);
+    this->saveToFile();
 }
 
 QList<Resident *> Model::residents() const

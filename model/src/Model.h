@@ -25,6 +25,8 @@ public:
     void addResident(Resident *resident);
     void removeResident(Resident *resident);
     Resident *getResidentByEmail(const QString &email) const;
+    bool createNewPasswordFor(const QString &email);
+    void createNewGuard(const QString &email);
 
     QList<Resident*> residents() const;
 
@@ -35,6 +37,9 @@ public:
     int columnCount( const QModelIndex &index = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+
+    void makeTableModel();
+    void makeListModel();
 
 private:
     Model(const Model &other);

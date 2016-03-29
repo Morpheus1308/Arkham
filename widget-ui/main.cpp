@@ -4,16 +4,19 @@
 #include "MainWindow.h"
 #include "LoginDialog.h"
 #include <QDebug>
-#include <Resident.h>
+#include <Patient.h>
+#include <Guard.h>
 
 int main(int argc, char *argv[])
 {
+    RegisterResidentClass(Patient);
+    RegisterResidentClass(Guard);
 
     QApplication app(argc, argv);
     Model model;
     model.setFileName("/home/morten/ordbogen.aa");
+    model.makeTableModel();
     model.loadFromFileOrCreate();
-    //model.loadFromFile();
 
     MainWindow window;
     window.setModel(&model);

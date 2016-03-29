@@ -1,30 +1,14 @@
 #include "Patient.h"
 
-class PatientPrivate
+Patient::Patient() :
+    Resident()
 {
-    Patient *owner;
 
-public:
-
-    PatientPrivate(Patient *o)
-        : owner(o)
-    {
-    }
-
-    void copyFrom(PatientPrivate *other)
-    {
-    }
-};
-
-Patient::Patient()
-{
-    d = new PatientPrivate(this);
 }
 
 
 Patient::~Patient()
 {
-    delete d;
 }
 
 bool Patient::mayBeReadBy(const Resident * const resident) const

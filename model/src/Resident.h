@@ -91,7 +91,7 @@ private:
     class ResidentPrivate *d;
 };
 
-#define RegisterResident(TYPE) Resident::registerResidentType(TYPE::staticMetaObject.className(), [](){ return new TYPE; });
+#define RegisterResidentClass(TYPE) Resident::registerResidentType(TYPE::staticMetaObject.className(), [](){ return new TYPE; });
 
 
 #endif // RESIDENT_H
