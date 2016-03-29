@@ -236,6 +236,8 @@ QVariant Model::data(const QModelIndex &index, int role) const
             return r->name();
         else if (role == TitleRole)
             return r->title();
+        else if (role == SanityRole)
+            return r->sanity();
         return QVariant();
     }
 
@@ -290,5 +292,7 @@ QHash<int, QByteArray> Model::roleNames() const
     QHash<int, QByteArray> roles;
     roles[NameRole] = "name";
     roles[TitleRole] = "title";
+    roles[SanityRole] = "sanity";
+
     return roles;
 }

@@ -45,7 +45,8 @@ public:
     //Code for exposing model to QML land.
     enum ResidentRoles {
         NameRole = Qt::UserRole + 1,
-        TitleRole
+        TitleRole,
+        SanityRole
     };
 
 protected:
