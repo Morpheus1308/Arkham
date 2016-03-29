@@ -5,8 +5,8 @@ Window {
 
     id: root
     visible: true
-    height: 75
-    width: 200
+    height: 200
+    width: 75
 
     Loader
     {

@@ -16,9 +16,9 @@ Rectangle
 
         delegate: Text {
             id: residentDelegate
-            property int ssanity: sanity
-            property string nname: name
-            property string ttitle: title
+            property int residentSanity: sanity
+            property string residentName: name
+            property string residentTitle: title
 
             text: title + " " + name
             MouseArea {
@@ -29,9 +29,9 @@ Rectangle
                     var x = point.x
                     var y = point.y
 
-                    residentDetails.name = residentDelegate.nname
-                    residentDetails.title = residentDelegate.ttitle
-                    residentDetails.sanity = residentDelegate.ssanity
+                    residentDetails.name = residentDelegate.residentName
+                    residentDetails.title = residentDelegate.residentTitle
+                    residentDetails.sanity = residentDelegate.residentSanity
                     residentDetails.show(x,y)
 
                 }
