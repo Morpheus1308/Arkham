@@ -14,13 +14,16 @@ private:
 
 public:
     ModelPrivate(Model *owner)
+        : owner(owner),
+          number_of_dimensions(1)
     {
         this->owner = owner;
     }
 
     QList<Resident*> residents;
-    int nextid;
+    int next_id;
     QString filename;
+    int number_of_dimensions;
 
     QString genderAsString(Resident::Gender gender)
     {
@@ -130,15 +133,15 @@ bool Model::load(QIODevice *in)
     is.setVersion(QDataStream::Qt_5_4);
     int size;
     is >> size;
-    d->nextid = 0;
+    d->next_id = 0;
     for(int i = 0; i < size; i++)
     {
         Resident *r = Resident::streamNewResidentFrom(is);
-        d->nextid = qMax<int>(r->id(),  d->nextid);
+        d->next_id = qMax<int>(r->id(),  d->next_id);
         d->residents << r;
     }
     //We increment 'nextid' to actually contain the next id avaliable for use.
-    d->nextid++;
+    d->next_id++;
     return true;
 
 }
@@ -214,6 +217,11 @@ int Model::rowCount(const QModelIndex &index) const
 int Model::columnCount(const QModelIndex &index) const
 {
     if(index.isValid()) return 0;
+    if(d->number_of_dimensions == 1)
+    {
+        return 1;
+    }
+
     return 6;
 }
 
@@ -224,6 +232,12 @@ QVariant Model::data(const QModelIndex &index, int role) const
         return QVariant();
     }
     Resident *r = d->residents[index.row()];
+
+    if(d->number_of_dimensions == 1)
+    {
+        return r->title()+" "+r->name();
+    }
+
     switch(index.column())
     {
     case 0: return r->title();
@@ -253,4 +267,14 @@ QVariant Model::headerData(int section, Qt::Orientation orientation, int role) c
  default: break;
  }
  return QVariant();
+}
+
+void Model::makeTableModel()
+{
+    d->number_of_dimensions = 2;
+}
+
+void Model::makeListModel()
+{
+    d->number_of_dimensions = 1;
 }
