@@ -5,8 +5,8 @@ Window {
 
     id: root
     visible: true
-    height: 200
-    width: 75
+    height: 400
+    width: 300
 
     Loader
     {
@@ -25,10 +25,11 @@ Window {
         }
         onLoggedOut:
         {
-            root.width = 75
-            root.height = 200
+            root.width = 300
+            root.height = 400
             loader.setSource("LoginForm.qml")
         }
     }
+
 
 }
