@@ -71,7 +71,7 @@ CreateResidentDialog::CreateResidentDialog(Model *model, QWidget *parent) :
         else
         {
             QMessageBox::critical(this, tr("Can Not Create New Resident"), tr("The email address %1 is already in use. Specify a unique one.").arg(resident->email()));
-        }
+            }
     });
 
 

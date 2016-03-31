@@ -79,6 +79,7 @@ MainWindow::MainWindow(QWidget *parent) :
     d->ui.toolBar->addAction(d->ui.action_Log_out);
     d->ui.toolBar->addAction(d->ui.action_Quit);
     d->ui.toolBar->addSeparator();
+    d->ui.toolBar->addAction(d->ui.action_Save);
     d->ui.toolBar->addAction(d->ui.action_Add_Resident);
     d->ui.toolBar->addAction(d->ui.action_Delete_selected);
 
@@ -121,6 +122,7 @@ void MainWindow::setModel(PrivilegeFilterProxyModel *model)
     d->privilege_proxied_model = model;
 
 
+    connect(d->ui.action_Save, &QAction::triggered, d->model, &Model::saveToFile);
 
     //When selection is changed, update actions accordingly
     connect(d->ui.residentsView->selectionModel(), &QItemSelectionModel::selectionChanged, [=](const QItemSelection & selected, const QItemSelection & deselected)
@@ -144,6 +146,8 @@ void MainWindow::setModel(PrivilegeFilterProxyModel *model)
 
     });
 
+    connect(d->model, &Model::hasUnsavedChangesChanged, d->ui.action_Save, &QAction::setEnabled);
+    d->ui.action_Save->setEnabled(d->model->hasUnsavedChanges());
 }
 
 void MainWindow::showEvent(QShowEvent *event)

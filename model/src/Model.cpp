@@ -17,7 +17,8 @@ private:
 public:
     ModelPrivate(Model *owner)
         : owner(owner),
-          number_of_dimensions(1)
+          number_of_dimensions(1),
+          has_unsaved_changes(false)
     {
         this->owner = owner;
     }
@@ -26,7 +27,7 @@ public:
     int next_id;
     QString filename;
     int number_of_dimensions;
-
+    bool has_unsaved_changes;
     QString genderAsString(Resident::Gender gender)
     {
         switch(gender)
@@ -121,6 +122,21 @@ void Model::loadFromFileOrCreate()
 
 }
 
+bool Model::hasUnsavedChanges() const
+{
+    return d->has_unsaved_changes;
+}
+
+void Model::setHasUnsavedChanges(bool has)
+{
+    bool old_value = d->has_unsaved_changes;
+    d->has_unsaved_changes = has;
+    if(has != old_value)
+    {
+        emit hasUnsavedChangesChanged(d->has_unsaved_changes);
+    }
+}
+
 void Model::saveToFile()
 {
     QFile f(d->filename);
@@ -129,7 +145,7 @@ void Model::saveToFile()
     f.close();
 }
 
-bool Model::save(QIODevice *out) const
+bool Model::save(QIODevice *out)
 {
     QDataStream os(out);
     os.setVersion(QDataStream::Qt_5_4);
@@ -138,6 +154,7 @@ bool Model::save(QIODevice *out) const
     {
         resident->streamTo(os);
     }
+    setHasUnsavedChanges(false);
     return true;
 }
 
@@ -156,6 +173,8 @@ bool Model::load(QIODevice *in)
     }
     //We increment 'nextid' to actually contain the next id avaliable for use.
     d->next_id++;
+    setHasUnsavedChanges(false);
+
     return true;
 
 }
@@ -175,6 +194,12 @@ bool Model::addResident(Resident *resident)
     d->residents << resident;
     endInsertRows();
     createNewPasswordFor(resident->email());
+    setHasUnsavedChanges(true);
+
+    connect(resident, &Resident::updated, [=](){
+        qDebug() << "Propagates updated to truye";
+        setHasUnsavedChanges(true);
+    });
     return true;
 }
 
@@ -183,6 +208,7 @@ void Model::removeResident(Resident *resident)
     beginRemoveRows(QModelIndex(), d->residents.indexOf(resident), d->residents.indexOf(resident));
     d->residents.removeAll(resident);
     endRemoveRows();
+    setHasUnsavedChanges(true);
 }
 
 Resident *Model::getResidentByEmail(const QString &email) const
@@ -248,7 +274,7 @@ int Model::columnCount(const QModelIndex &index) const
         return 1;
     }
 
-    return 6;
+    return 7;
 }
 
 QVariant Model::data(const QModelIndex &index, int role) const
@@ -274,12 +300,13 @@ QVariant Model::data(const QModelIndex &index, int role) const
     }
     switch(index.column())
     {
-    case 0: return r->title();
-    case 1: return r->name();
-    case 2: return d->genderAsString(r->gender());
-    case 3: return r->sanity();
-    case 4: return r->birthDate();
-    case 5: return r->email();
+    case 0: return r->className();
+    case 1: return r->title();
+    case 2: return r->name();
+    case 3: return d->genderAsString(r->gender());
+    case 4: return r->sanity();
+    case 5: return r->birthDate();
+    case 6: return r->email();
     default: break;
     }
     return QVariant();
@@ -292,12 +319,13 @@ QVariant Model::headerData(int section, Qt::Orientation orientation, int role) c
     if(role != Qt::DisplayRole) return QVariant();
     switch(section)
     {
-    case 0: return tr("Title");
-    case 1: return tr("Name");
-    case 2: return tr("Gender");
-    case 3: return tr("Sanity");
-    case 4: return tr("Birth Date");
-    case 5: return tr("E-mail");
+    case 0: return tr("Role");
+    case 1: return tr("Title");
+    case 2: return tr("Name");
+    case 3: return tr("Gender");
+    case 4: return tr("Sanity");
+    case 5: return tr("Birth Date");
+    case 6: return tr("E-mail");
     default: break;
     }
     return QVariant();

@@ -7,5 +7,6 @@
         <file>icons/log_out.png</file>
         <file>icons/redo.png</file>
         <file>icons/undo.png</file>
+        <file>icons/floppy_disk.png</file>
     </qresource>
 </RCC>

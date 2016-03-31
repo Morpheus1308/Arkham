@@ -19,9 +19,11 @@ public:
 
     void setFileName( const QString &filename);
     void loadFromFileOrCreate();
-    void saveToFile();
 
-    bool save(QIODevice *out) const;
+    bool hasUnsavedChanges() const;
+    void setHasUnsavedChanges(bool has);
+
+    bool save(QIODevice *out);
     bool load(QIODevice *in);
 
     bool addResident(Resident *resident);
@@ -50,6 +52,13 @@ public:
         TitleRole,
         SanityRole
     };
+
+signals:
+    void hasUnsavedChangesChanged(bool has_unsaved_changes);
+
+
+public slots:
+    void saveToFile();
 
 protected:
     QHash<int, QByteArray> roleNames() const;

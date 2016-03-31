@@ -58,8 +58,9 @@
     <property name="title">
      <string>&amp;Files</string>
     </property>
-    <addaction name="action_Log_out"/>
+    <addaction name="action_Save"/>
     <addaction name="separator"/>
+    <addaction name="action_Log_out"/>
     <addaction name="action_Quit"/>
    </widget>
    <widget class="QMenu" name="menu_Residents">
@@ -130,6 +131,18 @@
    </property>
    <property name="shortcut">
     <string>Del</string>
+   </property>
+  </action>
+  <action name="action_Save">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/floppy_disk.png</normaloff>:/icons/floppy_disk.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
  </widget>
