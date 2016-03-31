@@ -214,7 +214,7 @@ QList<Resident *> Model::residents() const
 QModelIndex Model::index(int row, int column, const QModelIndex &parent) const
 {
     if(parent.isValid()) return QModelIndex();
-    return createIndex(row, column);
+    return createIndex(row, column, (void*)(d->residents[row]));
 }
 
 QModelIndex Model::parent(const QModelIndex &index) const

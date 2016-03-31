@@ -20,6 +20,9 @@
       <property name="alternatingRowColors">
        <bool>true</bool>
       </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
       <property name="showGrid">
        <bool>false</bool>
       </property>
@@ -79,26 +82,56 @@
    </attribute>
   </widget>
   <action name="action_Quit">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/door_exit.png</normaloff>:/icons/door_exit.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Quit</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
   </action>
   <action name="action_Log_out">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/log_out.png</normaloff>:/icons/log_out.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Log out</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
   </action>
   <action name="action_Add_Resident">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/add.png</normaloff>:/icons/add.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Add Resident...</string>
    </property>
+   <property name="shortcut">
+    <string>Ins</string>
+   </property>
   </action>
   <action name="action_Delete_selected">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Delete selected</string>
    </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

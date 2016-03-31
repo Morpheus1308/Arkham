@@ -14,6 +14,7 @@ public:
     ~PrivilegeFilterProxyModel();
 
     Q_INVOKABLE void setViewingResident(class Resident *r);
+    Q_INVOKABLE Resident* viewingResident() const;
 
     void setSourceModel(class Model *model);
     Q_INVOKABLE class Model *model() const;

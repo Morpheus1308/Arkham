@@ -34,6 +34,11 @@ void PrivilegeFilterProxyModel::setViewingResident(Resident *r)
     invalidate();
 }
 
+Resident *PrivilegeFilterProxyModel::viewingResident() const
+{
+    return d->viewing_resident;
+}
+
 void PrivilegeFilterProxyModel::setSourceModel(Model *model)
 {
     QSortFilterProxyModel::setSourceModel(model);

@@ -3,8 +3,7 @@
 
 #include <QMainWindow>
 #include <QAbstractItemModel>
-#include <Model.h>
-
+#include <PrivilegeFilterProxyModel.h>
 
 class MainWindow : public QMainWindow
 {
@@ -14,8 +13,10 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void setModel(QAbstractItemModel *model);
+    void setModel(PrivilegeFilterProxyModel *model);
 
+protected:
+    void showEvent(QShowEvent * event);
 
 signals:
     void logOut();

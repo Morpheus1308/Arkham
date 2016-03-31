@@ -17,4 +17,7 @@ HEADERS += \
     MainWindow.h \
     LoginDialog.h
 
+RESOURCES += \
+    icons.qrc
+
 
