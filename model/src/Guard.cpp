@@ -11,12 +11,29 @@ Guard::~Guard()
 
 bool Guard::mayBeReadBy(const Resident * const resident) const
 {
-    return resident->privileges() && Resident::MayReadGuards;
+    if(resident == this)
+    {
+        return this->privileges() & Resident::MayReadSelf;
+    }
+    return resident->privileges() & Resident::MayReadGuards;
 }
 
 bool Guard::mayBeWrittenBy(const Resident * const resident) const
 {
-    return resident->privileges() && Resident::MayWriteGuards;
+    if(resident == this)
+    {
+        return this->privileges() & Resident::MayReadSelf;
+    }
+    return resident->privileges() & Resident::MayWriteGuards;
+}
+
+int Guard::privileges() const
+{
+    return
+            MayReadPatients
+            | MayReadGuards
+            | MayReadSelf
+            | MayWriteSelf;
 }
 
 QString Guard::className() const

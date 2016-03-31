@@ -14,6 +14,11 @@ bool MockResident::mayBeWrittenBy(Resident const * const ) const
     return true;
 }
 
+int MockResident::privileges() const
+{
+    return 1;
+}
+
 QString MockResident::className() const
 {
     return this->staticMetaObject.className();

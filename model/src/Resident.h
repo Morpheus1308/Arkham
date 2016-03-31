@@ -31,7 +31,9 @@ public:
         MayReadMedicalStaff  = 0x0010,
         MayWriteMedicalStaff = 0x0020,
         MayReadSelf          = 0x0040,
-        MayWriteSelf         = 0x0080
+        MayWriteSelf         = 0x0080,
+        MayReadAlchemist     = 0x0100,
+        MayWriteAlchemist    = 0x0200
     };
 
     Resident();
@@ -62,8 +64,8 @@ public:
     Gender gender() const;
     void setGender(Gender gender);
 
-    int privileges() const;
-    void setPrivileges(int privileges);
+    virtual int privileges() const = 0;
+
 
     void setPassword(const QString &password);
 

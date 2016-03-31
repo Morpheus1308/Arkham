@@ -1,17 +1,17 @@
-#ifndef GUARD_H
-#define GUARD_H
+#ifndef ALCHEMIST_H
+#define ALCHEMIST_H
 
 #include "Resident.h"
 
-class Guard : public Resident
+class Alchemist : public Resident
 {
 
     Q_OBJECT
 
 public:
 
-    Guard();
-    ~Guard();
+    Alchemist();
+    ~Alchemist();
 
     bool mayBeReadBy(Resident const * const resident) const;
     bool mayBeWrittenBy(Resident const * const resident) const;
@@ -20,5 +20,5 @@ public:
 
 };
 
-#endif // GUARD_H
+#endif // ALCHEMIST_H
 

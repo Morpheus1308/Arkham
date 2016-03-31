@@ -13,15 +13,22 @@ Patient::~Patient()
 
 bool Patient::mayBeReadBy(const Resident * const resident) const
 {
-    return resident->privileges() && Resident::MayReadPatients;
+    bool retval = resident->privileges() & Resident::MayReadPatients;
+    return retval;
 }
 
 bool Patient::mayBeWrittenBy(const Resident * const resident) const
 {
-    return resident->privileges() && Resident::MayWritePatients;
+    bool retval = resident->privileges() & Resident::MayWritePatients;
+    return retval;
+}
+
+int Patient::privileges() const
+{
+    return 0;
 }
 
 QString Patient::className() const
 {
-    return this->staticMetaObject.className();
+    return "Patient";
 }

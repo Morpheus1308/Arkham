@@ -18,7 +18,7 @@ public:
     int sanity;
     QDate birthdate;
     QString title;
-    int privileges;
+
     Resident::Gender gender;
     int id;
     QString email;
@@ -30,7 +30,6 @@ public:
           sanity(100),
           birthdate(QDate(1890, 8, 20)),
           title("Sir"),
-          privileges(Resident::MayReadSelf),
           gender(Resident::NotSure),
           id(0),
           email(""),
@@ -41,7 +40,6 @@ public:
     void streamTo(QDataStream &out)
     {
         out << name << email  << birthdate << title << password;
-        out << qint64(privileges);
         out << qint64(id);
         out << qint64(sanity);
         out << qint64(gender);
@@ -54,7 +52,6 @@ public:
     {
         in >> name >> email  >> birthdate >> title >> password;
         qint64 in64;
-        in >> in64;  privileges = in64;
         in >> in64;  id = in64;
         in >> in64;  sanity = in64;
         in >> in64;  gender = (Resident::Gender)in64;
@@ -89,7 +86,6 @@ bool Resident::operator==(const Resident &other) const
             d->sanity == other.d->sanity &&
             d->birthdate == other.d->birthdate &&
             d->gender == other.d->gender &&
-            d->privileges == other.d->privileges &&
             d->password == other.d->password &&
             d->email == other.d->email;
 }
@@ -181,16 +177,7 @@ void Resident::setGender(Resident::Gender gender)
     emit updated(this);
 }
 
-int Resident::privileges() const
-{
-    return d->privileges;
-}
 
-void Resident::setPrivileges(int privileges)
-{
-    d->privileges = privileges;
-    emit updated(this);
-}
 
 void Resident::setPassword(const QString &password)
 {
