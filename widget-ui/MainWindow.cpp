@@ -4,6 +4,7 @@
 #include <Resident.h>
 #include <QDebug>
 #include <QItemSelectionModel>
+#include <Model.h>
 
 class MyProxy : public QSortFilterProxyModel
 {
@@ -24,24 +25,25 @@ private:
     MainWindow *owner;
 
 public:
-    PrivilegeFilterProxyModel *model;
-    QSortFilterProxyModel *proxymodel;
+    Model *model;
+    PrivilegeFilterProxyModel *privilege_proxied_model;
+    QSortFilterProxyModel *filter_proxy_model;
     Resident* selected_resident;
     MainWindowPrivate(MainWindow*owner)
         : owner(owner),
-          model(0),
-          proxymodel(0),
+          privilege_proxied_model(0),
+          filter_proxy_model(0),
           selected_resident(0)
     {
     }
 
     Resident *viewingResident()
     {
-        if( ! model)
+        if( ! privilege_proxied_model)
         {
             return 0;
         }
-        Resident *r = model->viewingResident();
+        Resident *r = privilege_proxied_model->viewingResident();
         if( ! r )
         {
             return 0;
@@ -82,12 +84,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(d->ui.action_Quit, &QAction::triggered, qApp, &QCoreApplication::quit);
     connect(d->ui.action_Log_out, &QAction::triggered, this, &MainWindow::logOut);
+
     connect(d->ui.action_Delete_selected, &QAction::triggered, [=](){
         if( ! d->selected_resident )
         {
             return;
         }
-        qDebug() << "Deletes resident" << d->selected_resident->name();
+        d->model->removeResident(d->selected_resident);
     });
 
 
@@ -100,10 +103,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::setModel(PrivilegeFilterProxyModel *model)
 {
-    d->proxymodel = new MyProxy();
-    d->proxymodel->setSourceModel(model);
-    d->ui.residentsView->setModel(d->proxymodel);
-    d->model = model;
+
+    d->model = dynamic_cast<Model*>(model->sourceModel());
+    if( ! d->model )
+    {
+        return;
+    }
+
+    d->filter_proxy_model = new MyProxy();
+    d->filter_proxy_model->setSourceModel(model);
+    d->ui.residentsView->setModel(d->filter_proxy_model);
+    d->privilege_proxied_model = model;
+
 
 
     //When selection is changed, update actions accordingly
@@ -114,8 +125,8 @@ void MainWindow::setModel(PrivilegeFilterProxyModel *model)
         {
             return;
         }
-        const QModelIndex &privilege_index = d->proxymodel->mapToSource(selected.indexes().first());
-        const QModelIndex &model_index = d->model->mapToSource(privilege_index);
+        const QModelIndex &privilege_index = d->filter_proxy_model->mapToSource(selected.indexes().first());
+        const QModelIndex &model_index = d->privilege_proxied_model->mapToSource(privilege_index);
 
         d->selected_resident = static_cast<Resident*>(model_index.internalPointer());
         Resident *viewer = d->viewingResident();
@@ -132,7 +143,7 @@ void MainWindow::setModel(PrivilegeFilterProxyModel *model)
 
 void MainWindow::showEvent(QShowEvent *event)
 {
-    if(d->model)
+    if(d->privilege_proxied_model)
     {
         d->applyPrivileges();
     }

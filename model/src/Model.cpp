@@ -171,7 +171,9 @@ void Model::addResident(Resident *resident)
 
 void Model::removeResident(Resident *resident)
 {
-
+    beginRemoveRows(QModelIndex(), d->residents.indexOf(resident), d->residents.indexOf(resident));
+    d->residents.removeAll(resident);
+    endRemoveRows();
 }
 
 Resident *Model::getResidentByEmail(const QString &email) const
