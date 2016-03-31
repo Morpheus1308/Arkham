@@ -33,7 +33,7 @@ public:
         switch(gender)
         {
         case Resident::Male: return QObject::tr("Male");
-        case Resident::Female: return QObject::tr("Femail");
+        case Resident::Female: return QObject::tr("Female");
         case Resident::Hermaphrodite: return QObject::tr("Hermaphrodite");
 
         default: break;
@@ -305,7 +305,7 @@ QVariant Model::data(const QModelIndex &index, int role) const
     case 2: return r->name();
     case 3: return d->genderAsString(r->gender());
     case 4: return r->sanity();
-    case 5: return r->birthDate();
+    case 5: return r->formattedBirthDate();
     case 6: return r->email();
     default: break;
     }

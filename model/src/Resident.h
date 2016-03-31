@@ -61,6 +61,7 @@ public:
 
     QDate birthDate() const;
     void setBirthDate(const QDate &birthdate);
+    QString formattedBirthDate() const;
 
     Gender gender() const;
     void setGender(Gender gender);

@@ -3,6 +3,7 @@
 #include <QSortFilterProxyModel>
 #include <Resident.h>
 #include <QDebug>
+#include <QLineEdit>
 #include <QItemSelectionModel>
 #include <Model.h>
 #include "CreateResidentDialog.h"
@@ -11,11 +12,51 @@ class MyProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
 
+public:
+
+    MyProxy(Model *model)
+    {
+        this->model = model;
+    }
+
+    void setFilterText(const QString &phrase)
+    {
+        search_term = phrase.trimmed();
+        this->invalidate();
+    }
+
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
     {
-        return true;
+        if(search_term == "") return true;
+        Resident *r = model->residents()[sourceRow];
+        QString gender_string;
+        switch(r->gender())
+        {
+        case Resident::Male: gender_string = "Male"; break;
+        case Resident::Female: gender_string = "Female";break;
+        case Resident::Hermaphrodite: gender_string = "Hermaphrodite";break;
+        case Resident::NotSure: gender_string = "Not quite sure";break;
+        default:
+            break;
+        }
+
+        return
+                r->title().contains(search_term, Qt::CaseInsensitive)
+                | r->name().contains(search_term, Qt::CaseInsensitive)
+                | r->email().contains(search_term, Qt::CaseInsensitive)
+                | QString::number(r->sanity()).contains(search_term, Qt::CaseInsensitive)
+                | r->formattedBirthDate().contains(search_term, Qt::CaseInsensitive)
+                | gender_string.contains(search_term, Qt::CaseInsensitive)
+                | r->className().contains(search_term, Qt::CaseInsensitive);
+
+
     }
+
+
+private:
+    Model *model;
+    QString search_term;
 };
 
 #include "MainWindow.moc"
@@ -28,7 +69,7 @@ private:
 public:
     Model *model;
     PrivilegeFilterProxyModel *privilege_proxied_model;
-    QSortFilterProxyModel *filter_proxy_model;
+    MyProxy *filter_proxy_model;
     Resident* selected_resident;
     MainWindowPrivate(MainWindow*owner)
         : owner(owner),
@@ -83,6 +124,17 @@ MainWindow::MainWindow(QWidget *parent) :
     d->ui.toolBar->addAction(d->ui.action_Add_Resident);
     d->ui.toolBar->addAction(d->ui.action_Delete_selected);
 
+    QLineEdit *search_edit = new QLineEdit();
+    search_edit->setPlaceholderText(tr("Search in residents..."));
+    d->ui.toolBar->addWidget(search_edit);
+    connect(search_edit, &QLineEdit::textChanged, [=](const QString& search_phrase)
+    {
+        if ( ! d->filter_proxy_model )
+        {
+            return;
+        }
+        d->filter_proxy_model->setFilterText(search_phrase);
+    });
 
     connect(d->ui.action_Quit, &QAction::triggered, qApp, &QCoreApplication::quit);
     connect(d->ui.action_Log_out, &QAction::triggered, this, &MainWindow::logOut);
@@ -116,7 +168,7 @@ void MainWindow::setModel(PrivilegeFilterProxyModel *model)
         return;
     }
 
-    d->filter_proxy_model = new MyProxy();
+    d->filter_proxy_model = new MyProxy(d->model);
     d->filter_proxy_model->setSourceModel(model);
     d->ui.residentsView->setModel(d->filter_proxy_model);
     d->privilege_proxied_model = model;

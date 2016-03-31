@@ -172,6 +172,11 @@ void Resident::setBirthDate(const QDate &birthdate)
     emit updated(this);
 }
 
+QString Resident::formattedBirthDate() const
+{
+    return d->birthdate.toString(Qt::SystemLocaleLongDate);
+}
+
 Resident::Gender Resident::gender() const
 {
     return d->gender;
