@@ -162,11 +162,9 @@ bool Model::load(QIODevice *in)
 
 void Model::addResident(Resident *resident)
 {
-    beginInsertRows(QModelIndex(), d->residents.count()-1, d->residents.count());
+    beginInsertRows(QModelIndex(), d->residents.count()-1, d->residents.count()-1);
     d->residents << resident;
     endInsertRows();
-    qDebug() << "Has inserted row.";
-
 }
 
 void Model::removeResident(Resident *resident)

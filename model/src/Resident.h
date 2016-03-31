@@ -46,7 +46,7 @@ public:
     void streamTo(QDataStream &out);
     static Resident* streamNewResidentFrom(QDataStream &in);
     static void registerResidentType(const QString &name, std::function<Resident*()> creator);
-
+    static QMap<QString, std::function<Resident*()> > registeredCreators();
     int id() const;
 
     QString name() const;

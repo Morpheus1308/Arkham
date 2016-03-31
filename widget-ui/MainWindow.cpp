@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QItemSelectionModel>
 #include <Model.h>
+#include "CreateResidentDialog.h"
 
 class MyProxy : public QSortFilterProxyModel
 {
@@ -93,6 +94,10 @@ MainWindow::MainWindow(QWidget *parent) :
         d->model->removeResident(d->selected_resident);
     });
 
+    connect(d->ui.action_Add_Resident, &QAction::triggered, [=](){
+        CreateResidentDialog *dialog = new CreateResidentDialog(d->model);
+        dialog->show();
+    });
 
 }
 

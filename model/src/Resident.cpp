@@ -205,6 +205,11 @@ void Resident::registerResidentType(const QString &name, std::function<Resident*
     factoryFunctions[name] = creator;
 }
 
+QMap<QString, std::function<Resident *()> > Resident::registeredCreators()
+{
+    return factoryFunctions;
+}
+
 
 
 // The methods below should, in an ideal world, be pure virtual, but since Qt will not register classes

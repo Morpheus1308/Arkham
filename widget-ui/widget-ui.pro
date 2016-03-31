@@ -7,15 +7,18 @@ INCLUDEPATH += . ../model/src
 
 SOURCES += main.cpp \
     MainWindow.cpp \
-    LoginDialog.cpp
+    LoginDialog.cpp \
+    CreateResidentDialog.cpp
 
 FORMS += \
     MainWindow.ui \
-    LoginDialog.ui
+    LoginDialog.ui \
+    CreateResidentDialog.ui
 
 HEADERS += \
     MainWindow.h \
-    LoginDialog.h
+    LoginDialog.h \
+    CreateResidentDialog.h
 
 RESOURCES += \
     icons.qrc
