@@ -17,6 +17,9 @@ public:
     void setModel(QAbstractItemModel *model);
 
 
+signals:
+    void logOut();
+
 private:
     class MainWindowPrivate *d;
 };

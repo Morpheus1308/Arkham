@@ -75,3 +75,10 @@ LoginDialog::~LoginDialog()
 {
     delete d;
 }
+
+void LoginDialog::clearCredentials()
+{
+    d->ui.email->setText("");
+    d->ui.email->setFocus();
+    d->ui.password->setText("");
+}

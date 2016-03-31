@@ -12,6 +12,8 @@ public:
     explicit LoginDialog(Model &model, QWidget *parent = 0);
     ~LoginDialog();
 
+    void clearCredentials();
+
 signals:
     void loginCancelled();
     void loginSuccessFull(Resident *r);

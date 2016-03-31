@@ -41,5 +41,14 @@ int main(int argc, char *argv[])
         logindialog.hide();
     });
 
+    QObject::connect(&window, &MainWindow::logOut, [&]()
+    {
+       proxy.setViewingResident(0);
+       proxy.invalidate();
+       window.hide();
+       logindialog.clearCredentials();
+       logindialog.show();
+    });
+
     return app.exec();
 }

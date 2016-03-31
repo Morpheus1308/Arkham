@@ -26,9 +26,6 @@ public:
     {
     }
 
-    MainWindowPrivate()
-    {
-    }
 
 public:
     Ui::MainWindow ui;
@@ -40,6 +37,16 @@ MainWindow::MainWindow(QWidget *parent) :
     d(new MainWindowPrivate(this))
 {
     d->ui.setupUi(this);
+    d->ui.toolBar->addAction(d->ui.action_Log_out);
+    d->ui.toolBar->addAction(d->ui.action_Quit);
+    d->ui.toolBar->addSeparator();
+    d->ui.toolBar->addAction(d->ui.action_Add_Resident);
+    d->ui.toolBar->addAction(d->ui.action_Delete_selected);
+
+
+    connect(d->ui.action_Quit, &QAction::triggered, qApp, &QCoreApplication::quit);
+    connect(d->ui.action_Log_out, &QAction::triggered, this, &MainWindow::logOut);
+
 }
 
 MainWindow::~MainWindow()
