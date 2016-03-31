@@ -9,17 +9,7 @@ class MyProxy : public QSortFilterProxyModel
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
     {
-        static int counter = 0;
-        if(counter == 0)
-        {
-            counter = 1;
-            return true;
-        }
-        else
-        {
-            counter = 0;
-            return false;
-        }
+       return true;
     }
 };
 

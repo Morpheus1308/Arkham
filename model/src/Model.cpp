@@ -5,6 +5,8 @@
 #include <QFile>
 #include "Patient.h"
 #include "Guard.h"
+#include "MedicalStaff.h"
+#include "Alchemist.h"
 #include <QDebug>
 
 class ModelPrivate
@@ -41,34 +43,44 @@ public:
     void createInitialDatabase()
     {
 
-        Patient *r = new Patient();
-        r->setEmail("a@a.aa");
-        r->setGender(Resident::NotSure);
-        r->setName("Aaaaa");
+        Resident *r = new Patient();
+        r->setEmail("p@p.p");
+        r->setGender(Resident::Hermaphrodite);
+        r->setName("Whacko");
         r->setTitle("Mr.");
         r->setSanity(100);
-        r->setPassword("aaa");
+        r->setPassword("ppp");
         r->setBirthDate(QDate(2000, 1, 1));
         owner->addResident(r);
 
-        r = new Patient();
-        r->setEmail("b@b.bb");
+        r = new Guard();
+        r->setEmail("g@g.g");
         r->setGender(Resident::Male);
-        r->setName("Bbbbb");
-        r->setTitle("Ms.");
-        r->setSanity(80);
-        r->setPassword("bbb");
-        r->setBirthDate(QDate(2000, 2, 2));
+        r->setName("Restrain Jacket");
+        r->setTitle("Sir.");
+        r->setSanity(100);
+        r->setPassword("ggg");
+        r->setBirthDate(QDate(2000, 1, 1));
         owner->addResident(r);
 
-        r = new Patient();
-        r->setEmail("c@c.cc");
-        r->setGender(Resident::Hermaphrodite);
-        r->setName("Ccccc");
-        r->setTitle("Mrs.");
-        r->setSanity(70);
-        r->setPassword("ccc");
-        r->setBirthDate(QDate(2000, 3,3));
+        r = new MedicalStaff();
+        r->setEmail("m@m.m");
+        r->setGender(Resident::Female);
+        r->setName("Nurse");
+        r->setTitle("Ms.");
+        r->setSanity(100);
+        r->setPassword("mmm");
+        r->setBirthDate(QDate(2000, 1, 1));
+        owner->addResident(r);
+
+        r = new Alchemist();
+        r->setEmail("a@a.a");
+        r->setGender(Resident::NotSure);
+        r->setName("Howard");
+        r->setTitle("Dr.");
+        r->setSanity(100);
+        r->setPassword("aaa");
+        r->setBirthDate(QDate(2000, 1, 1));
         owner->addResident(r);
 
     }
@@ -103,6 +115,7 @@ void Model::loadFromFileOrCreate()
     else
     {
         d->createInitialDatabase();
+        this->saveToFile();
     }
 
 }

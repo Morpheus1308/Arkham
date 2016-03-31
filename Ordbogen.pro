@@ -1,5 +1,6 @@
 TEMPLATE = subdirs
 CONFIG += ordered
-SUBDIRS = model \
-            widget-ui
-         #qml-ui
+SUBDIRS = \
+        model \
+        widget-ui \
+        qml-ui
