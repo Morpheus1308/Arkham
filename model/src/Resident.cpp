@@ -121,6 +121,11 @@ int Resident::id() const
     return d->id;
 }
 
+void Resident::setId(int id)
+{
+    d->id = id;
+}
+
 QString Resident::name() const
 {
     return d->name;
@@ -182,6 +187,11 @@ void Resident::setGender(Resident::Gender gender)
 void Resident::setPassword(const QString &password)
 {
     d->password = d->hashPassword(password);
+}
+
+void Resident::sendWelcomeMail(const QString &password)
+{
+    qDebug() << QString("Welcome. Your Log in with '%1' and '%2'").arg(d->email).arg(password);
 }
 
 QString Resident::email() const

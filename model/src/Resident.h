@@ -48,6 +48,7 @@ public:
     static void registerResidentType(const QString &name, std::function<Resident*()> creator);
     static QMap<QString, std::function<Resident*()> > registeredCreators();
     int id() const;
+    void setId(int id);
 
     QString name() const;
     void setName(const QString &name);
@@ -65,9 +66,9 @@ public:
     void setGender(Gender gender);
 
     virtual int privileges() const;
-
-
     void setPassword(const QString &password);
+
+    void sendWelcomeMail(const QString &password);
 
     QString email() const;
     void setEmail(const QString &email);

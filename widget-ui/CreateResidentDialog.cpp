@@ -21,7 +21,6 @@ public:
         ui.gender_select->setCurrentIndex(0);
         ui.name_edit->setText("");
         ui.email_edit->setText("");
-        ui.password_edit->setText("");
         ui.title_edit->setText("");
         ui.sanity_edit->setValue(0);
         ui.birthdate_edit->setDate(QDate::currentDate().addYears(-18));
@@ -51,11 +50,6 @@ CreateResidentDialog::CreateResidentDialog(Model *model, QWidget *parent) :
 
     connect(d->ui.create_button, &QPushButton::clicked, [=](){
 
-        if(d->ui.password_edit->text() == "" )
-        {
-            QMessageBox::critical(this, tr("Can Not Create New Resident"), tr("You shall specify a password for the new resident."));
-            return;
-        }
         if(d->ui.email_edit->text() == "" )
         {
             QMessageBox::critical(this, tr("Can Not Create New Resident"), tr("You shall specify an email for the new resident."));
@@ -70,11 +64,22 @@ CreateResidentDialog::CreateResidentDialog(Model *model, QWidget *parent) :
         resident->setBirthDate(d->ui.birthdate_edit->date());
         resident->setGender(Resident::Gender(d->ui.gender_select->currentData().toInt()));
         resident->setEmail(d->ui.email_edit->text());
-        resident->setPassword(d->ui.password_edit->text());
-        model->addResident(resident);
-        d->clearForm();
+        if( model->addResident(resident) )
+        {
+            d->clearForm();
+        }
+        else
+        {
+            QMessageBox::critical(this, tr("Can Not Create New Resident"), tr("The email address %1 is already in use. Specify a unique one.").arg(resident->email()));
+        }
     });
 
+
+    //When we are done, release allocated memory.
+    connect(d->ui.cancel_button, &QPushButton::clicked, this, &QDialog::reject);
+    connect(this, &QDialog::finished, this, [=](){
+        this->deleteLater();
+    });
 
 }
 
@@ -83,7 +88,7 @@ CreateResidentDialog::~CreateResidentDialog()
     delete d;
 }
 
-void CreateResidentDialog::showEvent(QShowEvent *event)
+void CreateResidentDialog::showEvent(QShowEvent *)
 {
     d->clearForm();
 }

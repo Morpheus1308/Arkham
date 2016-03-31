@@ -160,11 +160,22 @@ bool Model::load(QIODevice *in)
 
 }
 
-void Model::addResident(Resident *resident)
+bool Model::addResident(Resident *resident)
 {
+    Resident *existing = this->getResidentByEmail(resident->email());
+    if( existing )
+    {
+        delete resident;
+        return false;
+    }
+
+    resident->setId(d->next_id);
+    d->next_id++;
     beginInsertRows(QModelIndex(), d->residents.count()-1, d->residents.count()-1);
     d->residents << resident;
     endInsertRows();
+    createNewPasswordFor(resident->email());
+    return true;
 }
 
 void Model::removeResident(Resident *resident)
@@ -192,6 +203,7 @@ bool Model::createNewPasswordFor(const QString &email)
     if(r)
     {
         r->setPassword("SuperSecretRandomPassword");
+        r->sendWelcomeMail("SuperSecretRandomPassword");
         return true;
     }
     return false;

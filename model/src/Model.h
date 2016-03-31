@@ -24,7 +24,7 @@ public:
     bool save(QIODevice *out) const;
     bool load(QIODevice *in);
 
-    void addResident(Resident *resident);
+    bool addResident(Resident *resident);
     void removeResident(Resident *resident);
     Q_INVOKABLE Resident *getResidentByEmail(const QString &email) const;
     bool createNewPasswordFor(const QString &email);
