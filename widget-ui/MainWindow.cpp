@@ -3,6 +3,7 @@
 #include <QSortFilterProxyModel>
 #include <Resident.h>
 #include <QDebug>
+#include <QItemSelectionModel>
 
 class MyProxy : public QSortFilterProxyModel
 {
@@ -11,7 +12,7 @@ class MyProxy : public QSortFilterProxyModel
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
     {
-       return true;
+        return true;
     }
 };
 
@@ -25,33 +26,39 @@ private:
 public:
     PrivilegeFilterProxyModel *model;
     QSortFilterProxyModel *proxymodel;
-
+    Resident* selected_resident;
     MainWindowPrivate(MainWindow*owner)
         : owner(owner),
           model(0),
-          proxymodel(0)
+          proxymodel(0),
+          selected_resident(0)
     {
     }
 
-    void applyPrivileges()
+    Resident *viewingResident()
     {
         if( ! model)
         {
-            return;
+            return 0;
         }
         Resident *r = model->viewingResident();
         if( ! r )
         {
-            return;
+            return 0;
         }
+    }
+    void applyPrivileges()
+    {
+        Resident *viewer = this->viewingResident();
+        if( ! viewer ) return;
         bool may_create_resident =
-                (r->privileges() &
-                (Resident::MayWriteAlchemist
-                 | Resident::MayWriteGuards
-                 | Resident::MayWritePatients
-                 | Resident::MayWriteMedicalStaff
-                )
-                );
+                (viewer ->privileges() &
+                 (Resident::MayWriteAlchemist
+                  | Resident::MayWriteGuards
+                  | Resident::MayWritePatients
+                  | Resident::MayWriteMedicalStaff
+                  )
+                 );
         ui.action_Add_Resident->setEnabled( may_create_resident );
     }
 
@@ -75,17 +82,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(d->ui.action_Quit, &QAction::triggered, qApp, &QCoreApplication::quit);
     connect(d->ui.action_Log_out, &QAction::triggered, this, &MainWindow::logOut);
-
-    connect(d->ui.residentsView, &QAbstractItemView::clicked, [=](const QModelIndex &index)
-    {
-        qDebug() << "Resident clicked";
-        const QModelIndex &privilege_index = d->proxymodel->mapToSource(index);
-        const QModelIndex &model_index = d->model->mapToSource(privilege_index);
-
-
-        Resident *resident = static_cast<Resident*>(model_index.internalPointer());
-        qDebug() << resident->name();
+    connect(d->ui.action_Delete_selected, &QAction::triggered, [=](){
+        if( ! d->selected_resident )
+        {
+            return;
+        }
+        qDebug() << "Deletes resident" << d->selected_resident->name();
     });
+
 
 }
 
@@ -101,6 +105,28 @@ void MainWindow::setModel(PrivilegeFilterProxyModel *model)
     d->ui.residentsView->setModel(d->proxymodel);
     d->model = model;
 
+
+    //When selection is changed, update actions accordingly
+    connect(d->ui.residentsView->selectionModel(), &QItemSelectionModel::selectionChanged, [=](const QItemSelection & selected, const QItemSelection & deselected)
+    {
+
+        if( selected.indexes().size() == 0 )
+        {
+            return;
+        }
+        const QModelIndex &privilege_index = d->proxymodel->mapToSource(selected.indexes().first());
+        const QModelIndex &model_index = d->model->mapToSource(privilege_index);
+
+        d->selected_resident = static_cast<Resident*>(model_index.internalPointer());
+        Resident *viewer = d->viewingResident();
+        if( ! viewer )
+        {
+            return;
+        }
+
+        d->ui.action_Delete_selected->setEnabled( d->selected_resident->mayBeWrittenBy(viewer) );
+
+    });
 
 }
 
