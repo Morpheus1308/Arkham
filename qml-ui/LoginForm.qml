@@ -2,7 +2,7 @@ import QtQuick 2.0
 Item
 {
     id: root;
-    signal loggedIn()
+    signal testCredentials(var email, var password)
 
     FoldableItem
     {
@@ -44,7 +44,7 @@ Item
                 {
 
                     console.log("Logs in");
-                    root.loggedIn()
+                    root.testCredentials(userid.value, password.value)
                 }
             }
 

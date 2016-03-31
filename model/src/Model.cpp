@@ -86,8 +86,9 @@ public:
     }
 };
 
-Model::Model()
-    : d(new ModelPrivate(this))
+Model::Model() :
+    QAbstractItemModel(),
+    d(new ModelPrivate(this))
 {
 
 }

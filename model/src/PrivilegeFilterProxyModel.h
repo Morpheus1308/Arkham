@@ -6,14 +6,17 @@
 class PrivilegeFilterProxyModel : public QSortFilterProxyModel
 {
 
+    Q_OBJECT
+
 public:
 
     PrivilegeFilterProxyModel();
     ~PrivilegeFilterProxyModel();
 
-    void setViewingResident(class Resident *r);
+    Q_INVOKABLE void setViewingResident(class Resident *r);
 
     void setSourceModel(class Model *model);
+    Q_INVOKABLE class Model *model() const;
 
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;

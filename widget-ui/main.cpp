@@ -6,6 +6,9 @@
 #include <QDebug>
 #include <Patient.h>
 #include <Guard.h>
+#include <Alchemist.h>
+#include <MedicalStaff.h>
+
 #include <PrivilegeFilterProxyModel.h>
 
 
@@ -13,6 +16,8 @@ int main(int argc, char *argv[])
 {
     RegisterResidentClass(Patient);
     RegisterResidentClass(Guard);
+    RegisterResidentClass(MedicalStaff);
+    RegisterResidentClass(Alchemist);
 
     QApplication app(argc, argv);
     Model model;

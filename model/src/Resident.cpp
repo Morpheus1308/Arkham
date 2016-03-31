@@ -5,6 +5,7 @@
 #include <QString>
 #include <QMap>
 #include <assert.h>
+#include <QDebug>
 
 static QMap<QString, std::function<Resident*()> > factoryFunctions;
 
@@ -178,7 +179,6 @@ void Resident::setGender(Resident::Gender gender)
 }
 
 
-
 void Resident::setPassword(const QString &password)
 {
     d->password = d->hashPassword(password);
@@ -204,3 +204,37 @@ void Resident::registerResidentType(const QString &name, std::function<Resident*
 {
     factoryFunctions[name] = creator;
 }
+
+
+
+// The methods below should, in an ideal world, be pure virtual, but since Qt will not register classes
+// with pure virtual methods for QML usage, we have to do this nasty trick below.
+
+int Resident::privileges() const
+{
+    qDebug() << "privileges() called on Resident";
+    assert(false);
+    return 1;
+}
+
+bool Resident::mayBeReadBy(const Resident * const resident) const
+{
+    qDebug() << "mayBeReadBy() called on Resident";
+    assert(false);
+    return true;
+}
+
+bool Resident::mayBeWrittenBy(const Resident * const resident) const
+{
+    qDebug() << "mayBeWrittenBy() called on Resident";
+    assert(false);
+    return true;
+}
+
+QString Resident::className() const
+{
+    qDebug() << "className() called on Resident";
+    assert(false);
+    return "";
+}
+

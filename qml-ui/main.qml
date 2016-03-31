@@ -1,5 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Window 2.2
+import dk.winkler.morten.Arkham 1.0
 
 Window {
 
@@ -17,11 +18,24 @@ Window {
 
     Connections {
         target: loader.item
-        onLoggedIn:
+        onTestCredentials:
         {
             root.height = 500
             root.width = 300
+            var resident = MyModel.model().getResidentByEmail(email);
+            if ( ! resident )
+            {
+                console.log("No such user")
+                return;
+            }
+            if ( ! resident.matchesPassword(password) )
+            {
+                console.log("Wrong password")
+                return;
+            }
+
             loader.setSource("ListView.qml")
+            MyModel.setViewingResident(resident);
         }
         onLoggedOut:
         {

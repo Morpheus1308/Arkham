@@ -5,6 +5,7 @@ BorderImage {
 
     property alias label: textLabel.text;
     property bool password: false
+    property alias value: input.text
 
     height: 40
     source: "borderimage.png"
@@ -20,6 +21,7 @@ BorderImage {
     }
 
     TextInput {
+        id: input
         color: "white"
         anchors.top: textLabel.top
         x: textLabel.width+textLabel.x+12

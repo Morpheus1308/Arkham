@@ -31,12 +31,18 @@ PrivilegeFilterProxyModel::~PrivilegeFilterProxyModel()
 void PrivilegeFilterProxyModel::setViewingResident(Resident *r)
 {
     d->viewing_resident = r;
+    invalidate();
 }
 
 void PrivilegeFilterProxyModel::setSourceModel(Model *model)
 {
     QSortFilterProxyModel::setSourceModel(model);
     d->model = model;
+}
+
+Model *PrivilegeFilterProxyModel::model() const
+{
+    return d->model;
 }
 
 bool PrivilegeFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &) const

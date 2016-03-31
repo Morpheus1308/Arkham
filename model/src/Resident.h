@@ -64,7 +64,7 @@ public:
     Gender gender() const;
     void setGender(Gender gender);
 
-    virtual int privileges() const = 0;
+    virtual int privileges() const;
 
 
     void setPassword(const QString &password);
@@ -73,13 +73,13 @@ public:
     void setEmail(const QString &email);
 
 
-    bool matchesPassword(const QString &password) const;
+    Q_INVOKABLE bool matchesPassword(const QString &password) const;
 
-    virtual bool mayBeReadBy(Resident const * const resident) const = 0;
-    virtual bool mayBeWrittenBy(Resident const * const resident) const = 0;
+    virtual bool mayBeReadBy(Resident const * const resident) const;
+    virtual bool mayBeWrittenBy(Resident const * const resident) const;
 
     //This is not the most elegant approach, but will do for this assignment.
-    virtual QString className() const = 0;
+    virtual QString className() const ;
 
     bool mayRead(Resident const * const resident) const;
     bool mayWrite(Resident const * const resident) const;

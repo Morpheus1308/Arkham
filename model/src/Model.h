@@ -11,6 +11,8 @@ class Resident;
 class Model : public QAbstractItemModel
 {
 
+    Q_OBJECT
+
 public:
 	Model();
 	~Model();
@@ -24,7 +26,7 @@ public:
 
     void addResident(Resident *resident);
     void removeResident(Resident *resident);
-    Resident *getResidentByEmail(const QString &email) const;
+    Q_INVOKABLE Resident *getResidentByEmail(const QString &email) const;
     bool createNewPasswordFor(const QString &email);
     void createNewGuard(const QString &email);
 
