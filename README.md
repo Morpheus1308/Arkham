@@ -32,3 +32,8 @@ The QML based one, mimics a phone app residents can use to get a less detailed o
 You can log in as alchemist with "a@a.a" and "aaa", as Medical Staff with "m@m.m" and "mmm", as Guard with "g@g.g" and "ggg" and as a patient with "p@p.p" and "ppp" as password.
 
 Have fun. 
+
+
+#Note
+
+This code has been build with Qt 5.5 on Linux. You may experience trouble with the qml ui. In that case, just disable it in the root .pro file.
