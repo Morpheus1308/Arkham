@@ -16,6 +16,7 @@ BorderImage {
     Text
     {
         id: textLabel
+        color: "white"
         anchors.centerIn: parent
     }
 
