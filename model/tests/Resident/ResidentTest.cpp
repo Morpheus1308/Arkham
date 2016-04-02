@@ -180,7 +180,7 @@ private slots:
     #define TOSTRING(x) STRINGIFY(x)
 
     #define ADDROW(examinerclass, mayread, maywrite, subjectclass) \
-    QTest::newRow(STRINGIFY(examinerclass)" on "STRINGIFY(subjectclass)) << (Resident*)(new examinerclass()) << (Resident*)(new subjectclass()) << (mayread) << (maywrite)
+    QTest::newRow(STRINGIFY(examinerclass) " on " STRINGIFY(subjectclass)) << (Resident*)(new examinerclass()) << (Resident*)(new subjectclass()) << (mayread) << (maywrite)
 
     #define ADDSELF(examinerclass, mayread, maywrite) \
     { \

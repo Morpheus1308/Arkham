@@ -255,7 +255,7 @@ QModelIndex Model::index(int row, int column, const QModelIndex &parent) const
     return createIndex(row, column, (void*)(d->residents[row]));
 }
 
-QModelIndex Model::parent(const QModelIndex &index) const
+QModelIndex Model::parent(const QModelIndex &) const
 {
     return QModelIndex();
 }

@@ -41,9 +41,6 @@
        <property name="textFormat">
         <enum>Qt::RichText</enum>
        </property>
-       <property name="buddy">
-        <cstring></cstring>
-       </property>
       </widget>
      </item>
      <item>

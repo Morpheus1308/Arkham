@@ -26,7 +26,7 @@ public:
     }
 
 protected:
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &) const
     {
         if(search_term == "") return true;
         Resident *r = model->residents()[sourceRow];
@@ -90,6 +90,7 @@ public:
         {
             return 0;
         }
+        return 0;
     }
     void applyPrivileges()
     {
@@ -177,7 +178,7 @@ void MainWindow::setModel(PrivilegeFilterProxyModel *model)
     connect(d->ui.action_Save, &QAction::triggered, d->model, &Model::saveToFile);
 
     //When selection is changed, update actions accordingly
-    connect(d->ui.residentsView->selectionModel(), &QItemSelectionModel::selectionChanged, [=](const QItemSelection & selected, const QItemSelection & deselected)
+    connect(d->ui.residentsView->selectionModel(), &QItemSelectionModel::selectionChanged, [=](const QItemSelection & selected, const QItemSelection & )
     {
 
         if( selected.indexes().size() == 0 )
@@ -202,7 +203,7 @@ void MainWindow::setModel(PrivilegeFilterProxyModel *model)
     d->ui.action_Save->setEnabled(d->model->hasUnsavedChanges());
 }
 
-void MainWindow::showEvent(QShowEvent *event)
+void MainWindow::showEvent(QShowEvent *)
 {
     if(d->privilege_proxied_model)
     {

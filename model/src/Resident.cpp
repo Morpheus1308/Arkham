@@ -237,14 +237,14 @@ int Resident::privileges() const
     return 1;
 }
 
-bool Resident::mayBeReadBy(const Resident * const resident) const
+bool Resident::mayBeReadBy(const Resident * const ) const
 {
     qDebug() << "mayBeReadBy() called on Resident";
     assert(false);
     return true;
 }
 
-bool Resident::mayBeWrittenBy(const Resident * const resident) const
+bool Resident::mayBeWrittenBy(const Resident * const ) const
 {
     qDebug() << "mayBeWrittenBy() called on Resident";
     assert(false);
