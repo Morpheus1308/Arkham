@@ -8,6 +8,7 @@
 #include <Guard.h>
 #include <Alchemist.h>
 #include <MedicalStaff.h>
+#include <QDir>
 
 #include <PrivilegeFilterProxyModel.h>
 
@@ -21,7 +22,7 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     Model model;
-    model.setFileName("/home/morten/ordbogen.aa");
+    model.setFileName(QDir::homePath()+"/arkham.arf");
     model.makeTableModel();
     model.loadFromFileOrCreate();
     PrivilegeFilterProxyModel proxy;

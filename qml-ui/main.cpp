@@ -9,6 +9,7 @@
 #include <MedicalStaff.h>
 #include <QtQml>
 #include <PrivilegeFilterProxyModel.h>
+#include <QDir>
 
 
 int main(int argc, char *argv[])
@@ -24,7 +25,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
     Model model;
-    model.setFileName("/home/morten/ordbogen.aa");
+    model.setFileName(QDir::homePath()+"/arkham.arf");
     model.loadFromFileOrCreate();
     model.makeListModel();
 
