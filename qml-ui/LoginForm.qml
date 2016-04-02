@@ -4,7 +4,7 @@ Item
     id: root;
     signal testCredentials(var email, var password)
 
-    FoldableItem
+    Rectangle
     {
         id: loginForm
 
@@ -28,6 +28,7 @@ Item
             {
                 id: userid
                 label: "Email:"
+                value: "a@a.a"
             }
 
             InputField
@@ -35,6 +36,7 @@ Item
                 id: password
                 password: true
                 label: "Password:"
+                value: "aaa"
             }
 
             Button
@@ -47,61 +49,6 @@ Item
                     root.testCredentials(userid.value, password.value)
                 }
             }
-
-            Row
-            {
-                width: parent.width
-
-                Text
-                {
-                    text:"Forgot your password?"
-                    width: parent.width*0.5
-                    horizontalAlignment: Text.AlignHCenter
-                }
-
-                Link
-                {
-                    text:"Create Account..."
-                    width: parent.width*0.5
-                    onClicked:
-                    {
-
-                        console.log("Link click")
-                        loginForm.state = "hidden"
-                    }
-                }
-            }
-
-
-        }
-
-
-    }
-
-
-    Rectangle
-    {
-        id: registerForm
-        height:root.height
-        width: root.width
-        x: loginForm.visibleWidth
-        anchors.top: root.top
-        color: "#000000";
-
-        Text {
-            anchors.centerIn: parent;
-            color: "white"
-            text :"Done"
-
-            MouseArea
-            {
-                anchors.fill: parent;
-                onClicked:
-                {
-                    loginForm.state = "visible"
-                }
-            }
         }
     }
-
 }

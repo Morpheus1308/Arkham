@@ -2,57 +2,91 @@ import QtQuick 2.0
 
 Rectangle
 {
-    id: root
-    anchors.fill: parent;
-    color: "yellow"
 
     signal loggedOut()
-    ListView
+
+    id: root
+    anchors.fill: parent;
+    color: "white"
+
+
+
+    FoldableItem
     {
-        id: view;
+
+
+        id: list;
         anchors.fill: parent
-        model: MyModel
-        clip: true
+        rotationAngle: 0
+        signal loggedOut()
 
-        delegate: Text {
-            id: residentDelegate
-            property int residentSanity: sanity
-            property string residentName: name
-            property string residentTitle: title
 
-            text: title + " " + name
-            MouseArea {
-                anchors.fill: parent;
+        Column
+        {
+            anchors.fill: parent
+
+            Text
+            {
+                id: header
+                text : "Residents"
+                color: "black"
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.bold: true;
+                font.pixelSize: 30
+            }
+
+            ListView
+            {
+                width: root.width
+                height: root.height - logoutButton.height - header.height
+                model: MyModel
+                clip: true
+                spacing: 1
+
+                delegate: Rectangle {
+                    id: residentDelegate
+                    property int residentSanity: sanity
+                    property string residentName: name
+                    property string residentTitle: title
+
+                    Text{
+                        anchors.centerIn: parent;
+                        text: title + " " + name
+                        font.pixelSize: 15
+                    }
+
+                    width: parent.width;
+                    color: "#eeeeee"
+                    height: 40
+                    MouseArea {
+                        anchors.fill: parent;
+                        onClicked:
+                        {
+                            residentDetails.name = residentDelegate.residentName
+                            residentDetails.title = residentDelegate.residentTitle
+                            residentDetails.sanity = residentDelegate.residentSanity
+                            list.hide()
+                        }
+                    }
+                }
+
+            }
+
+
+            Button
+            {
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                id: logoutButton
+                width : parent.width * 0.9
+                label : "Log out"
                 onClicked:
                 {
-                    var point = mapToItem(root, mouseX, mouseY)
-                    var x = point.x
-                    var y = point.y
-
-                    residentDetails.name = residentDelegate.residentName
-                    residentDetails.title = residentDelegate.residentTitle
-                    residentDetails.sanity = residentDelegate.residentSanity
-                    residentDetails.show(x,y)
-
+                    root.loggedOut();
                 }
             }
         }
 
-    }
-
-    Text
-    {
-        x: 0
-        y: 300
-        text : "Log out"
-        MouseArea
-        {
-            anchors.fill: parent;
-            onClicked:
-            {
-                root.loggedOut();
-            }
-        }
     }
 
 
@@ -65,39 +99,18 @@ Rectangle
             anchors.fill: parent;
         }
 
-        width:0
-        height:0
-        x: 0
+        width:parent.width
+        height:parent.height
         y: 0
+        x   : list.visibleWidth
 
-        opacity: 0
 
         property Item container: root
         property alias name  : name.text
         property alias title  : title.text
         property alias sanity : sanity.text
 
-        anchors.fill: parent;
-
-        property int originX
-        property int originY
-
-
-        enabled: false;
-        function show(x,y)
-        {
-            opacity = 1
-            enabled = true;
-
-        }
-
-        function hide()
-        {
-            opacity = 0
-            enabled = false;
-        }
-
-        color:  "silver"
+        color: "#eeeeee"
 
         Grid
         {
@@ -119,8 +132,7 @@ Rectangle
                     anchors.fill: parent;
                     onClicked:
                     {
-                        residentDetails.hide();
-                        console.log(residentDetails.container)
+                        list.show()
                     }
                 }
             }

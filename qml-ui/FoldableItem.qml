@@ -2,10 +2,20 @@ import QtQuick 2.0
 
 Rectangle
 {
+    property real rotationAngle: 45
+    property real visibleWidth: root.width * Math.cos(rotation.angle / 180.0 * Math.PI);
+
+    function hide()
+    {
+        state = "hidden"
+    }
+
+    function show()
+    {
+        state = "visible"
+    }
 
     id: root
-
-    property real rotationAngle: 45
 
     transform: Rotation {
         id : rotation
@@ -17,22 +27,21 @@ Rectangle
         angle: root.rotationAngle
     }
 
-    property real visibleWidth: root.width * Math.cos(rotation.angle / 180.0 * Math.PI);
 
 
     states: [
         State
         {
             name: "visible"
-            PropertyChanges { target: loginForm; rotationAngle: 0}
-            PropertyChanges { target: loginForm; opacity: 1.0}
+            PropertyChanges { target: root; rotationAngle: 0}
+            PropertyChanges { target: root; opacity: 1.0}
 
         },
         State
         {
             name: "hidden"
-            PropertyChanges { target: loginForm; rotationAngle: 90}
-            PropertyChanges { target: loginForm; opacity: 0.0}
+            PropertyChanges { target: root; rotationAngle: 90}
+            PropertyChanges { target: root; opacity: 0.0}
         }
     ]
 

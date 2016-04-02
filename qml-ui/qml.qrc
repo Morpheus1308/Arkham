@@ -9,5 +9,6 @@
         <file>Link.qml</file>
         <file>Button.qml</file>
         <file>LoginForm.qml</file>
+        <file>MessageBox.qml</file>
     </qresource>
 </RCC>
