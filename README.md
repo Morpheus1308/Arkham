@@ -23,17 +23,17 @@ The model holds the actual resident data and are stored on our local machine in 
 
 The two user interfaces are a widget based one and a qml based one.
 
-The widget based one  allows you to create new residents and delete existing ones - if you are logged in with the needed priviledges (hint: "a@a.a" with password "aaa" can do a lot!). Using the widget interface, you can also see the residents you are allowed to see.
+The widget based one  allows you to create new residents and delete existing ones - if you are logged in with the needed priviledges (hint: "a@a.a" with password "SuperSecretRandomPassword" can do a lot!). Using the widget interface, you can also see the residents you are allowed to see.
 Using the widgetbased you can also create new accounts and have your password reset. New accounts and password resets are supposed to be mailed to you, but are in this case just outputted to the debug out.
 
 The QML based one, mimics a phone app residents can use to get a less detailed overview of the residente they may view.
 
 #Using the user interfaces
-You can log in as alchemist with "a@a.a" and "aaa", as Medical Staff with "m@m.m" and "mmm", as Guard with "g@g.g" and "ggg" and as a patient with "p@p.p" and "ppp" as password.
+You can log in as alchemist with "a@a.a" and "SuperSecretRandomPassword", as Medical Staff with "m@m.m" and "SuperSecretRandomPassword", as Guard with "g@g.g" and "SuperSecretRandomPassword" and as a patient with "p@p.p" and "SuperSecretRandomPassword" as password.
 
 Have fun. 
 
 
 #Note
 
-This code has been build with Qt 5.5 on Linux. You may experience trouble with the qml ui. In that case, just disable it in the root .pro file.
+This code has been build with Qt 5.5 on Linux and Windows. You may experience trouble with the qml ui. In that case, just disable it in the root .pro file.
