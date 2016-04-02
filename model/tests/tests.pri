@@ -19,8 +19,7 @@ macx {
     PRE_TARGETDEPS += ../../src/libmodel.a
 }
 
-win32
-{
+win32 {
     CONFIG(release, debug|release): {
         LIBS += -L../../src/release -lmodel
         PRE_TARGETDEPS += $$OUT_PWD/../../src/release/model.lib
