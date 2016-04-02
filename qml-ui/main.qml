@@ -25,12 +25,12 @@ Window {
             var resident = MyModel.model().getResidentByEmail(email);
             if ( ! resident )
             {
-                console.log("No such user")
+                messageBox.show("No such user")
                 return;
             }
             if ( ! resident.matchesPassword(password) )
             {
-                console.log("Wrong password")
+                messageBox.show("Wrong password")
                 return;
             }
 
@@ -42,6 +42,56 @@ Window {
             root.width = 300
             root.height = 400
             loader.setSource("LoginForm.qml")
+        }
+    }
+
+    Rectangle
+    {
+        id: messageBox
+        width: parent.width
+        height: parent.height
+        x: 0
+        y: -height
+
+        color: "red";
+
+        property alias message: label.text
+
+
+        function hide()
+        {
+            messageBox.y = -height
+        }
+
+        function show(m)
+        {
+            messageBox.y = 0;
+            message = m;
+        }
+
+        Text
+        {
+            id: label;
+            color : "yellow"
+            anchors.centerIn: parent;
+        }
+
+        Rectangle
+        {
+            width: 0.8*parent.width
+            height: 20;
+            color : "silver"
+            anchors.bottom: parent.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            MouseArea
+            {
+                anchors.fill: parent;
+                onClicked:
+                {
+                    messageBox.hide();
+                }
+            }
         }
     }
 
