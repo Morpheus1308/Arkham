@@ -36,4 +36,4 @@ Have fun.
 
 #Note
 
-This code has been build with Qt 5.5 on Linux and Windows. You may experience trouble with the qml ui. In that case, just disable it in the root .pro file.
+This code has been build with against Qt 5.5 on Linux with gcc and on Windows 7 against Qt 5.5 with msvc. You may experience trouble executing the qml ui. In that case, just disable it in the root .pro file.
