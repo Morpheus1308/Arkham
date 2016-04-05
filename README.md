@@ -36,4 +36,6 @@ Have fun.
 
 #Note
 
-This code has been build with against Qt 5.5 on Linux with gcc and on Windows 7 against Qt 5.5 with msvc. You may experience trouble executing the qml ui. In that case, just disable it in the root .pro file.
+  1 :  This code has been build with against Qt 5.5 on Linux with gcc and on Windows 7 against Qt 5.5 with msvc. You may experience trouble executing the qml ui. In that case, just disable it in the root .pro file.
+  
+  2: Upon launch, the program checks if $(HOME)/arkham.arf exists on your machine and if not it is created. This is the file that keeps records of residents. If you want to clear the database, remove this file.
